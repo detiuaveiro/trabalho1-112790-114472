@@ -171,6 +171,30 @@ Image ImageCreate(int width, int height, uint8 maxval) { ///
   assert (width >= 0);
   assert (height >= 0);
   assert (0 < maxval && maxval <= PixMax);
+
+  Image image = malloc(sizeof(Image));
+  if(image == NULL){
+    errCause = "Falha na alocação de memória (image struct)";
+    return NULL;
+  }
+
+  image->width = width;
+  image->height = height;
+  image->maxval = maxval;
+
+  image->pixel = malloc(sizeof(uint8) * width * height);
+  if(image->pixel == NULL){
+    errCause = "Falha na alocação de memória (pixel array)";
+    free(image);
+    return  NULL;
+  }
+
+  int size = width*height;
+  for(int i = 0; i < size; i++){
+    image->pixel[i] = 0; 
+  }
+  return image;
+
   // Insert your code here!
 }
 
