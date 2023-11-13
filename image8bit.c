@@ -14,7 +14,7 @@
 // 112790: João Su
 // 114472: José Fernandes
 // 
-// Date: aaaaa
+// Date: 2023-11-13
 //
 
 #include "image8bit.h"
@@ -324,6 +324,17 @@ int ImageMaxval(Image img) { ///
 /// *max is set to the maximum.
 void ImageStats(Image img, uint8* min, uint8* max) { ///
   assert (img != NULL);
+  int size = img->width * img->height;
+  max = img->pixel[0];
+  min = img->pixel[0];
+  for(int i = 0; i<=size; i++){
+    if(img->pixel[i] < min){
+      min = img->pixel[i];
+    }
+    if(img->pixel[i] > max){
+      max = img->pixel[i];
+    }
+  }
   // Insert your code here!
 }
 
