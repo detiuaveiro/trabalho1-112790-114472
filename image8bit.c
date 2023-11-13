@@ -14,7 +14,7 @@
 // 112790: João Su
 // 114472: José Fernandes
 // 
-// Date: aaa
+// Date: aaaaa
 //
 
 #include "image8bit.h"
