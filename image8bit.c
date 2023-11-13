@@ -172,7 +172,7 @@ Image ImageCreate(int width, int height, uint8 maxval) { ///
   assert (height >= 0);
   assert (0 < maxval && maxval <= PixMax);
 
-  Image image = malloc(sizeof(Image));
+  Image image = (Image)malloc(sizeof(struct image));
   if(image == NULL){
     errCause = "Falha na alocação de memória (image struct)";
     return NULL;
@@ -182,17 +182,19 @@ Image ImageCreate(int width, int height, uint8 maxval) { ///
   image->height = height;
   image->maxval = maxval;
 
-  image->pixel = malloc(sizeof(uint8) * width * height);
+  int size = width*height;
+
+  image->pixel = (uint8*)malloc(sizeof(uint8) * size);
   if(image->pixel == NULL){
     errCause = "Falha na alocação de memória (pixel array)";
     free(image);
     return  NULL;
   }
 
-  int size = width*height;
   for(int i = 0; i < size; i++){
     image->pixel[i] = 0; 
   }
+
   return image;
 
   // Insert your code here!
@@ -205,6 +207,11 @@ Image ImageCreate(int width, int height, uint8 maxval) { ///
 /// Should never fail, and should preserve global errno/errCause.
 void ImageDestroy(Image* imgp) { ///
   assert (imgp != NULL);
+
+  free((*imgp)->pixel);
+  free(*imgp);
+  *imgp = NULL;
+
   // Insert your code here!
 }
 
