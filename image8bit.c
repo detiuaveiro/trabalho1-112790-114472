@@ -402,6 +402,15 @@ void ImageSetPixel(Image img, int x, int y, uint8 level) { ///
 /// resulting in a "photographic negative" effect.
 void ImageNegative(Image img) { ///
   assert (img != NULL);
+  
+  for (int i = 0; i < img->width; i++){                     // i : eixo dos y
+    for(int j = 0; i< img->height; j++){                    // j : eixo dos x
+      uint8 pixel = ImageGetPixel(img, i, j);
+      uint8 newPixel = img->maxval - pixel;
+      ImageSetPixel(img, i, j, newPixel);
+    }
+  }
+
   // Insert your code here!
 }
 
