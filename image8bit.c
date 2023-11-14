@@ -419,6 +419,14 @@ void ImageNegative(Image img) { ///
 /// all pixels with level>=thr to white (maxval).
 void ImageThreshold(Image img, uint8 thr) { ///
   assert (img != NULL);
+
+  for(int i = 0; i < img->height; i++){
+    for(int j = 0; j < img->width; j++){
+      uint8 pixel = ImageGetPixel(img, i, j);
+      if(pixel < thr) ImageSetPixel(img, i, j, 0);
+      else ImageSetPixel(img, i, j, PixMax);
+    }
+  }
   // Insert your code here!
 }
 
