@@ -404,9 +404,9 @@ void ImageNegative(Image img) { ///
   assert (img != NULL);
   
   for (int i = 0; i < img->height; i++){                     // i : eixo dos y
-    for(int j = 0; i< img->width; j++){                    // j : eixo dos x
+    for(int j = 0; j < img->width; j++){                     // j : eixo dos x
       uint8 pixel = ImageGetPixel(img, i, j);
-      uint8 newPixel = img->maxval - pixel;
+      uint8 newPixel = PixMax - pixel;
       ImageSetPixel(img, i, j, newPixel);
     }
   }
