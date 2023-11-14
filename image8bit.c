@@ -349,7 +349,10 @@ int ImageValidPos(Image img, int x, int y) { ///
 /// Check if rectangular area (x,y,w,h) is completely inside img.
 int ImageValidRect(Image img, int x, int y, int w, int h) { ///
   assert (img != NULL);
-  // Insert your code here!
+  return (0 <= x && x < img->width) && (0 <= y && y < img->height) 
+  && (w >= 0 && w <= img->width) && (h >= 0 && h <= img->height);
+
+  // não sei se ta correto
 }
 
 /// Pixel get & set operations
@@ -405,13 +408,13 @@ void ImageNegative(Image img) { ///
   
   for (int i = 0; i < img->height; i++){                     // i : eixo dos y
     for(int j = 0; j < img->width; j++){                     // j : eixo dos x
+                
       uint8 pixel = ImageGetPixel(img, j, i);
-      uint8 newPixel = PixMax - pixel;
+      uint8 newPixel = img->maxval - pixel;
       ImageSetPixel(img, j, i, newPixel);
     }
   }
-
-  // Insert your code here!
+  //done ig
 }
 
 /// Apply threshold to image.
@@ -422,12 +425,13 @@ void ImageThreshold(Image img, uint8 thr) { ///
 
   for(int i = 0; i < img->height; i++){
     for(int j = 0; j < img->width; j++){
+      
       uint8 pixel = ImageGetPixel(img, j, i);
       if(pixel < thr) ImageSetPixel(img, j, i, 0);
-      else ImageSetPixel(img, j, i, PixMax);
+      else ImageSetPixel(img, j, i, img->maxval);
     }
   }
-  // Insert your code here!
+  // done ig
 }
 
 /// Brighten image by a factor.
@@ -436,18 +440,21 @@ void ImageThreshold(Image img, uint8 thr) { ///
 /// darken the image if factor<1.0.
 void ImageBrighten(Image img, double factor) { ///
   assert (img != NULL);
-  assert (factor >= 0.0);
+  //assert (factor >= 0.0);
 
   for(int i = 0; i < img->height; i++){
     for(int j = 0; j < img->width; j++){
       
       uint8 pixel = ImageGetPixel(img, j, i);
+      double newPixel = pixel * factor;
 
-      (factor * pixel > PixMax) ? ImageSetPixel(img, j, i, PixMax): ImageSetPixel(img, j, i, factor * pixel);
+      if(newPixel > img->maxval) newPixel = img->maxval;
+      
+      ImageSetPixel(img, j, i, (uint8)newPixel);
     }
   }
 
-  // Insert your code here!
+  // não funfa
 }
 
 
