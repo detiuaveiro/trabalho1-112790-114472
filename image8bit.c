@@ -330,11 +330,11 @@ void ImageStats(Image img, uint8* min, uint8* max) { ///
   *min = img->pixel[0];
 
   for(int i = 0; i < size; i++){
-    if(img->pixel[i] < min){
-      min = img->pixel[i];
+    if(img->pixel[i] < *min){
+      *min = img->pixel[i];
     }
-    if(img->pixel[i] > max){
-      max = img->pixel[i];
+    if(img->pixel[i] > *max){
+      *max = img->pixel[i];
     }
   }
   // Insert your code here!
