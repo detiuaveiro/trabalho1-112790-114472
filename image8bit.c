@@ -405,9 +405,9 @@ void ImageNegative(Image img) { ///
   
   for (int i = 0; i < img->height; i++){                     // i : eixo dos y
     for(int j = 0; j < img->width; j++){                     // j : eixo dos x
-      uint8 pixel = ImageGetPixel(img, i, j);
+      uint8 pixel = ImageGetPixel(img, j, i);
       uint8 newPixel = PixMax - pixel;
-      ImageSetPixel(img, i, j, newPixel);
+      ImageSetPixel(img, j, i, newPixel);
     }
   }
 
@@ -422,9 +422,9 @@ void ImageThreshold(Image img, uint8 thr) { ///
 
   for(int i = 0; i < img->height; i++){
     for(int j = 0; j < img->width; j++){
-      uint8 pixel = ImageGetPixel(img, i, j);
-      if(pixel < thr) ImageSetPixel(img, i, j, 0);
-      else ImageSetPixel(img, i, j, PixMax);
+      uint8 pixel = ImageGetPixel(img, j, i);
+      if(pixel < thr) ImageSetPixel(img, j, i, 0);
+      else ImageSetPixel(img, j, i, PixMax);
     }
   }
   // Insert your code here!
@@ -441,9 +441,9 @@ void ImageBrighten(Image img, double factor) { ///
   for(int i = 0; i < img->height; i++){
     for(int j = 0; j < img->width; j++){
       
-      uint8 pixel = ImageGetPixel(img, i, j);
+      uint8 pixel = ImageGetPixel(img, j, i);
 
-      (factor * pixel > PixMax) ? ImageSetPixel(img, i, j, PixMax): ImageSetPixel(img, i, j, factor * pixel);
+      (factor * pixel > PixMax) ? ImageSetPixel(img, j, i, PixMax): ImageSetPixel(img, j, i, factor * pixel);
     }
   }
 
