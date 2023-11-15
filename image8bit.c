@@ -454,7 +454,7 @@ void ImageBrighten(Image img, double factor) { ///
     }
   }
 
-  // não funfa
+  //done ig
 }
 
 
@@ -493,7 +493,20 @@ Image ImageRotate(Image img) { ///
 /// On failure, returns NULL and errno/errCause are set accordingly.
 Image ImageMirror(Image img) { ///
   assert (img != NULL);
-  // Insert your code here!
+
+  Image newImage = ImageCreate(img->width, img->height, img->maxval);
+
+  for(int i = 0; i < img->height; i++){
+    for(int j = 0; j < img->width/2; j++){
+      
+      uint8 temp = ImageGetPixel(img, img->width - j - 1, i);
+      ImageSetPixel(newImage, img->width - j - 1, i, ImageGetPixel(img, j, i));
+      ImageSetPixel(newImage, j, i, temp);
+    }
+  }
+  return newImage;
+
+  //done ig
 }
 
 /// Crop a rectangular subimage from img.
