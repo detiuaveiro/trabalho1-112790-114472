@@ -444,7 +444,7 @@ void ImageThreshold(Image img, uint8 thr) { ///
 /// darken the image if factor<1.0.
 void ImageBrighten(Image img, double factor) { ///
   assert (img != NULL);
-  //assert (factor >= 0.0);
+  assert (factor >= 0.0);
 
   for(int i = 0; i < img->height; i++){                         // i : eixo dos y
     for(int j = 0; j < img->width; j++){                        // j : eixo dos x
