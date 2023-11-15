@@ -446,7 +446,7 @@ void ImageBrighten(Image img, double factor) { ///
     for(int j = 0; j < img->width; j++){
       
       uint8 pixel = ImageGetPixel(img, j, i);
-      double newPixel = pixel * factor;
+      double newPixel = pixel * factor + 0.5;
 
       if(newPixel > img->maxval) newPixel = img->maxval;
       
