@@ -197,7 +197,7 @@ Image ImageCreate(int width, int height, uint8 maxval) { ///
 
   return image;
 
-  // Insert your code here!
+  //done ig
 }
 
 /// Destroy the image pointed to by (*imgp).
@@ -212,7 +212,7 @@ void ImageDestroy(Image* imgp) { ///
   free(*imgp);
   *imgp = NULL;
 
-  // Insert your code here!
+  //done ig
 }
 
 
@@ -337,7 +337,8 @@ void ImageStats(Image img, uint8* min, uint8* max) { ///
       *max = img->pixel[i];
     }
   }
-  // Insert your code here!
+  
+  //done ig
 }
 
 /// Check if pixel position (x,y) is inside img.
@@ -367,12 +368,13 @@ int ImageValidRect(Image img, int x, int y, int w, int h) { ///
 // The returned index must satisfy (0 <= index < img->width*img->height)
 static inline int G(Image img, int x, int y) {
   int index;
-  // Insert your code here!
 
   index = (img->width) * y + x;
 
   assert (0 <= index && index < img->width*img->height);
   return index;
+
+  //done ig
 }
 
 /// Get the pixel (level) at position (x,y).
@@ -414,6 +416,7 @@ void ImageNegative(Image img) { ///
       ImageSetPixel(img, j, i, newPixel);
     }
   }
+
   //done ig
 }
 
@@ -423,14 +426,15 @@ void ImageNegative(Image img) { ///
 void ImageThreshold(Image img, uint8 thr) { ///
   assert (img != NULL);
 
-  for(int i = 0; i < img->height; i++){
-    for(int j = 0; j < img->width; j++){
+  for(int i = 0; i < img->height; i++){                       // i : eixo dos y
+    for(int j = 0; j < img->width; j++){                      // j : eixo dos x
       
       uint8 pixel = ImageGetPixel(img, j, i);
       if(pixel < thr) ImageSetPixel(img, j, i, 0);
       else ImageSetPixel(img, j, i, img->maxval);
     }
   }
+
   // done ig
 }
 
@@ -442,8 +446,8 @@ void ImageBrighten(Image img, double factor) { ///
   assert (img != NULL);
   //assert (factor >= 0.0);
 
-  for(int i = 0; i < img->height; i++){
-    for(int j = 0; j < img->width; j++){
+  for(int i = 0; i < img->height; i++){                         // i : eixo dos y
+    for(int j = 0; j < img->width; j++){                        // j : eixo dos x
       
       uint8 pixel = ImageGetPixel(img, j, i);
       double newPixel = pixel * factor + 0.5;
@@ -481,7 +485,18 @@ void ImageBrighten(Image img, double factor) { ///
 /// On failure, returns NULL and errno/errCause are set accordingly.
 Image ImageRotate(Image img) { ///
   assert (img != NULL);
-  // Insert your code here!
+
+  Image newImage = ImageCreate(img->height, img->width, img->maxval);           // imagem nova, com altura e largura atualizado
+
+  for(int i = 0; i < img->height; i++){                                         // i : eixo dos y
+    for(int j = 0; j < img->width; j++){                                        // j : eixo dos x
+      uint8 pixel = ImageGetPixel(img, j, i);
+      ImageSetPixel(newImage, i, img->width - j - 1, pixel);
+    }
+  }
+  return newImage;
+
+  //done ig
 }
 
 /// Mirror an image = flip left-right.
@@ -496,8 +511,8 @@ Image ImageMirror(Image img) { ///
 
   Image newImage = ImageCreate(img->width, img->height, img->maxval);
 
-  for(int i = 0; i < img->height; i++){
-    for(int j = 0; j < img->width/2; j++){
+  for(int i = 0; i < img->height; i++){                                           // i : eixo dos y
+    for(int j = 0; j < img->width/2; j++){                                        // j : eixo dos x
       
       uint8 temp = ImageGetPixel(img, img->width - j - 1, i);
       ImageSetPixel(newImage, img->width - j - 1, i, ImageGetPixel(img, j, i));
