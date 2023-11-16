@@ -572,7 +572,7 @@ void ImagePaste(Image img1, int x, int y, Image img2) { ///
     }
   }
 
-  // Done ig
+  //Done ig
 }
 
 /// Blend an image into a larger image.
@@ -585,7 +585,23 @@ void ImageBlend(Image img1, int x, int y, Image img2, double alpha) { ///
   assert (img1 != NULL);
   assert (img2 != NULL);
   assert (ImageValidRect(img1, x, y, img2->width, img2->height));
-  // Insert your code here!
+
+  for(int i = 0; i < img2->height; i++){
+    for(int j = 0; j < img2->width; j++){
+
+      uint8 pixel1 = ImageGetPixel(img1, j+x, i+y);
+      uint8 pixel2 = ImageGetPixel(img2, j, i);
+
+      double newPixel = ((alpha*pixel2) + ((1-alpha)*pixel1))+0.5;                    
+
+      if(newPixel > img1->maxval) newPixel = img1->maxval;
+      else if(newPixel < 0) newPixel = 0;
+
+      ImageSetPixel(img1, j+x, i+y, (uint8)newPixel);
+    }
+  }
+
+  //Done ig
 }
 
 /// Compare an image to a subimage of a larger image.
@@ -617,5 +633,6 @@ int ImageLocateSubImage(Image img1, int* px, int* py, Image img2) { ///
 /// The image is changed in-place.
 void ImageBlur(Image img, int dx, int dy) { ///
   // Insert your code here!
+  // media = (soma pixeis + npixeis/2) /n pixeis
 }
 
