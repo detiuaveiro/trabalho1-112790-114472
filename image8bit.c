@@ -539,7 +539,18 @@ Image ImageMirror(Image img) { ///
 Image ImageCrop(Image img, int x, int y, int w, int h) { ///
   assert (img != NULL);
   assert (ImageValidRect(img, x, y, w, h));
-  // Insert your code here!
+
+  Image newImage = ImageCreate(w, h, img->maxval);
+
+  for (int i = 0; i < h; i++) {
+    for (int j = 0; j < w; j++) {
+      uint8 pixel = ImageGetPixel(img, x + j, y + i);
+      ImageSetPixel(newImage, j, i, pixel);
+    }
+  }
+
+  return newImage;
+  // done ig
 }
 
 
