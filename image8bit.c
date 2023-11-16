@@ -622,7 +622,6 @@ int ImageMatchSubImage(Image img1, int x, int y, Image img2) { ///
 
     }
   }
-  return 1;
 
   // Insert your code here!
 }
