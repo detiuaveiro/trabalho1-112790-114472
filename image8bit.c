@@ -659,7 +659,41 @@ int ImageLocateSubImage(Image img1, int* px, int* py, Image img2) { ///
 /// [x-dx, x+dx]x[y-dy, y+dy].
 /// The image is changed in-place.
 void ImageBlur(Image img, int dx, int dy) { ///
+  assert (img != NULL);
+  assert (ImageValidPos(img, dx, dy));
   // Insert your code here!
-  // media = (soma pixeis + npixeis/2) /n pixeis
+
+  //cria uma copia da imagem temporária 
+  //de forma a não alterar os valores da imagem final com o blur da imagem inteira
+  Image copy = ImageCreate(img->width, img->height, img->maxval);
+  for(int i = 0; i < img->height; i++){
+    for(int j = 0; j < img->width; j++){
+      uint8 pixel = ImageGetPixel(img, j, i);
+      ImageSetPixel(copy, j, i, pixel);
+    }
+  }
+
+  for(int i = 0; i < img->height ; i++){
+    for(int j = 0; j < img->width ; j++){
+      
+      int pixel = 0;
+      int count = 0;
+      for(int k = i-dy; k <= i+dy; k++){  
+        for(int l = j-dx; l <= j+dx; l++){  
+          if (ImageValidPos(copy, l, k)) {                // verifica se dx e dy são válidos
+            pixel += ImageGetPixel(copy, l, k);
+            count++;
+          }
+        }
+      }
+
+      int media = (pixel+ count/2)/count;                 // media = (soma pixeis + npixeis/2) /n pixeis
+
+      ImageSetPixel(img, j, i, (uint8)media);
+    }
+  }
+  ImageDestroy(&copy);
+
+  //Done ig
 }
 
