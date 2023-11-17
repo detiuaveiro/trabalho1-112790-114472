@@ -14,7 +14,7 @@
 // 112790: João Su
 // 114472: José Fernandes
 // 
-// Date: 2023-11-13
+// Date: 2023-11-17
 //
 
 #include "image8bit.h"
@@ -172,7 +172,8 @@ Image ImageCreate(int width, int height, uint8 maxval) { ///
   assert (height >= 0);
   assert (0 < maxval && maxval <= PixMax);
 
-  Image image = (Image)malloc(sizeof(struct image));
+  
+  Image image = (Image)malloc(sizeof(struct image));                //arrange space for the image struct
   if(image == NULL){
     errCause = "Falha na alocação de memória (image struct)";
     return NULL;
@@ -329,6 +330,7 @@ void ImageStats(Image img, uint8* min, uint8* max) { ///
   *max = img->pixel[0];
   *min = img->pixel[0];
 
+  //easy way to get max and min values
   for(int i = 0; i < size; i++){
     if(img->pixel[i] < *min){
       *min = img->pixel[i];
@@ -354,6 +356,7 @@ int ImageValidRect(Image img, int x, int y, int w, int h) { ///
   && (w >= 0 && w <= img->width) && (h >= 0 && h <= img->height);
 
   // não sei se ta correto
+  //sabes sim, confia
 }
 
 /// Pixel get & set operations
@@ -411,8 +414,8 @@ void ImageNegative(Image img) { ///
   for (int i = 0; i < img->height; i++){                     // i : eixo dos y
     for(int j = 0; j < img->width; j++){                     // j : eixo dos x
                 
-      uint8 pixel = ImageGetPixel(img, j, i);
-      uint8 newPixel = img->maxval - pixel;
+      uint8 pixel = ImageGetPixel(img, j, i);                
+      uint8 newPixel = img->maxval - pixel;                  // invert the value of the pixel
       ImageSetPixel(img, j, i, newPixel);
     }
   }
@@ -450,7 +453,7 @@ void ImageBrighten(Image img, double factor) { ///
     for(int j = 0; j < img->width; j++){                        
       
       uint8 pixel = ImageGetPixel(img, j, i);
-      double newPixel = pixel * factor + 0.5;
+      double newPixel = pixel * factor + 0.5;                   // +0.5 to help rounding and help convert into uint8
 
       if(newPixel > img->maxval) newPixel = img->maxval;
       
@@ -618,7 +621,7 @@ int ImageMatchSubImage(Image img1, int x, int y, Image img2) { ///
       uint8 pixel1 = ImageGetPixel(img1, j+x, i+y);
       uint8 pixel2 = ImageGetPixel(img2, j, i);
       
-      if(pixel1 != pixel2) return 0;
+      if(pixel1 != pixel2) return 0;                            // iterates through the subimage and compares the pixels
 
     }
   }
@@ -663,10 +666,8 @@ void ImageBlur(Image img, int dx, int dy) { ///
   assert (ImageValidPos(img, dx, dy));
   // Insert your code here!
 
-  //cria uma copia da imagem temporária 
-  //de forma a não alterar os valores da imagem final com o blur da imagem inteira
-  Image copy = ImageCreate(img->width, img->height, img->maxval);
-  for(int i = 0; i < img->height; i++){
+  Image copy = ImageCreate(img->width, img->height, img->maxval);         //cria uma copia da imagem temporária 
+  for(int i = 0; i < img->height; i++){                                   //de forma a não alterar os valores da imagem final com o blur da imagem inteira
     for(int j = 0; j < img->width; j++){
       uint8 pixel = ImageGetPixel(img, j, i);
       ImageSetPixel(copy, j, i, pixel);
@@ -680,14 +681,14 @@ void ImageBlur(Image img, int dx, int dy) { ///
       int count = 0;
       for(int k = i-dy; k <= i+dy; k++){  
         for(int l = j-dx; l <= j+dx; l++){  
-          if (ImageValidPos(copy, l, k)) {                // verifica se dx e dy são válidos
+          if (ImageValidPos(copy, l, k)) {                                // verifica se dx e dy são válidos
             pixel += ImageGetPixel(copy, l, k);
             count++;
           }
         }
       }
 
-      int media = (pixel+ count/2)/count;                 // media = (soma pixeis + npixeis/2) /n pixeis
+      int media = (pixel+ count/2)/count;                                 // media = (soma pixeis + npixeis/2) /n pixeis
 
       ImageSetPixel(img, j, i, (uint8)media);
     }
