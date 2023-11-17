@@ -426,8 +426,8 @@ void ImageNegative(Image img) { ///
 void ImageThreshold(Image img, uint8 thr) { ///
   assert (img != NULL);
 
-  for(int i = 0; i < img->height; i++){                       // i : eixo dos y
-    for(int j = 0; j < img->width; j++){                      // j : eixo dos x
+  for(int i = 0; i < img->height; i++){                       
+    for(int j = 0; j < img->width; j++){                      
       
       uint8 pixel = ImageGetPixel(img, j, i);
       if(pixel < thr) ImageSetPixel(img, j, i, 0);
@@ -446,8 +446,8 @@ void ImageBrighten(Image img, double factor) { ///
   assert (img != NULL);
   assert (factor >= 0.0);
 
-  for(int i = 0; i < img->height; i++){                         // i : eixo dos y
-    for(int j = 0; j < img->width; j++){                        // j : eixo dos x
+  for(int i = 0; i < img->height; i++){                       
+    for(int j = 0; j < img->width; j++){                        
       
       uint8 pixel = ImageGetPixel(img, j, i);
       double newPixel = pixel * factor + 0.5;
@@ -488,8 +488,8 @@ Image ImageRotate(Image img) { ///
 
   Image newImage = ImageCreate(img->height, img->width, img->maxval);           // imagem nova, com altura e largura atualizado
 
-  for(int i = 0; i < img->height; i++){                                         // i : eixo dos y
-    for(int j = 0; j < img->width; j++){                                        // j : eixo dos x
+  for(int i = 0; i < img->height; i++){                                      
+    for(int j = 0; j < img->width; j++){                                        
       uint8 pixel = ImageGetPixel(img, j, i);
       ImageSetPixel(newImage, i, img->width - j - 1, pixel);
     }
@@ -511,8 +511,8 @@ Image ImageMirror(Image img) { ///
 
   Image newImage = ImageCreate(img->width, img->height, img->maxval);
 
-  for(int i = 0; i < img->height; i++){                                           // i : eixo dos y
-    for(int j = 0; j < img->width/2; j++){                                        // j : eixo dos x
+  for(int i = 0; i < img->height; i++){                                           
+    for(int j = 0; j < img->width/2; j++){                                        
       
       uint8 temp = ImageGetPixel(img, img->width - j - 1, i);
       ImageSetPixel(newImage, img->width - j - 1, i, ImageGetPixel(img, j, i));
@@ -634,7 +634,21 @@ int ImageMatchSubImage(Image img1, int x, int y, Image img2) { ///
 int ImageLocateSubImage(Image img1, int* px, int* py, Image img2) { ///
   assert (img1 != NULL);
   assert (img2 != NULL);
-  // Insert your code here!
+
+  for(int i = 0; i <= img1->height - img2->height; i++){
+    for(int j = 0; j <= img1->width - img2->width; j++){
+      if(ImageMatchSubImage(img1, j, i, img2)){
+
+        *px = j;
+        *py = i;
+        
+        return 1;
+      }
+    }
+  }
+  return 0;
+
+  //Done ig
 }
 
 
