@@ -689,7 +689,8 @@ void ImageBlur(Image img, int dx, int dy) { ///
     for(int j = 0; j < img->width ; j++){
       
       int pixel = 0;
-      int count = 0;
+      int count = 0;                                                      // contar número de pixeis do blur
+      // iterar o quadrilátero do blur
       for(int k = i-dy; k <= i+dy; k++){  
         for(int l = j-dx; l <= j+dx; l++){  
           if (ImageValidPos(copy, l, k)) {                                // verifica se dx e dy são válidos
