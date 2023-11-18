@@ -56,6 +56,7 @@ static const char* USAGE =
     "  locate          Search PRED in CURR, print matching position, or NOTFOUND\n"
     "\n"              
     "  blur DX,DY      blur CURR using (2DX+1)x(2Dy+1) mean filter\n"
+    "  blur2 (optimized version) DX,DY      blur CURR using (2DX+1)x(2Dy+1) mean filter\n"
     "\n"              
     "OPERANDS:\n"     
     "  X,Y             Pixel coordinates: 0,0 is top left corner\n"
@@ -206,7 +207,7 @@ int main(int ac, char* av[]) {
       if (n < 1) { err = 2; break; }
       int dx; int dy;
       if (sscanf(av[k], "%d,%d", &dx, &dy) != 2) { err = 5; break; }
-      fprintf(stderr, "Blur I%d with %dx%d mean filter\n", n-1, 2*dx+1, 2*dy+1);
+      fprintf(stderr, "Blur2 (optimized version) I%d with %dx%d mean filter\n", n-1, 2*dx+1, 2*dy+1);
       ImageBlur2(img[n-1], dx, dy);
     } else if (strcmp(av[k], "save") == 0) {
       if (++k >= ac) { err = 1; break; }
