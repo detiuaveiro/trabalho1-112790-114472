@@ -175,6 +175,7 @@ Image ImageCreate(int width, int height, uint8 maxval) { ///
   
   Image image = (Image)malloc(sizeof(struct image));                //arrange space for the image struct
   if(image == NULL){
+    // colocar errsave?? irineu
     errCause = "Falha na alocação de memória (image struct)";
     return NULL;
   }
@@ -187,6 +188,7 @@ Image ImageCreate(int width, int height, uint8 maxval) { ///
 
   image->pixel = (uint8*)malloc(sizeof(uint8) * size);
   if(image->pixel == NULL){
+    // colocar errsave?? irineu
     errCause = "Falha na alocação de memória (pixel array)";
     free(image);
     return  NULL;
@@ -357,6 +359,7 @@ int ImageValidRect(Image img, int x, int y, int w, int h) { ///
 
   // não sei se ta correto
   //sabes sim, confia
+  // '-'
 }
 
 /// Pixel get & set operations
@@ -455,7 +458,7 @@ void ImageBrighten(Image img, double factor) { ///
       uint8 pixel = ImageGetPixel(img, j, i);
       double newPixel = pixel * factor + 0.5;                   // +0.5 to help rounding and help convert into uint8
 
-      if(newPixel > img->maxval) newPixel = img->maxval;
+      if(newPixel > img->maxval) newPixel = img->maxval;        // overflow
       
       ImageSetPixel(img, j, i, (uint8)newPixel);
     }
@@ -489,12 +492,13 @@ void ImageBrighten(Image img, double factor) { ///
 Image ImageRotate(Image img) { ///
   assert (img != NULL);
 
-  Image newImage = ImageCreate(img->height, img->width, img->maxval);           // imagem nova, com altura e largura atualizado
+  // imagem nova, com altura e largura trocados em relação à img
+  Image newImage = ImageCreate(img->height, img->width, img->maxval);  
 
   for(int i = 0; i < img->height; i++){                                      
     for(int j = 0; j < img->width; j++){                                        
       uint8 pixel = ImageGetPixel(img, j, i);
-      ImageSetPixel(newImage, i, img->width - j - 1, pixel);
+      ImageSetPixel(newImage, i, img->width - j - 1, pixel);            // img (j, i) -> newImage (i, img->width - j - 1)
     }
   }
   return newImage;
@@ -517,6 +521,7 @@ Image ImageMirror(Image img) { ///
   for(int i = 0; i < img->height; i++){                                           
     for(int j = 0; j < img->width/2; j++){                                        
       
+      //pixel espelhado obtido a partir do complemento img->width - j - 1
       uint8 temp = ImageGetPixel(img, img->width - j - 1, i);
       ImageSetPixel(newImage, img->width - j - 1, i, ImageGetPixel(img, j, i));
       ImageSetPixel(newImage, j, i, temp);
@@ -545,6 +550,8 @@ Image ImageCrop(Image img, int x, int y, int w, int h) { ///
 
   Image newImage = ImageCreate(w, h, img->maxval);
 
+  //iterar a imagem branca criada, e em cada iteração colocar o pixel correspondente da img
+
   for (int i = 0; i < h; i++) {
     for (int j = 0; j < w; j++) {
       uint8 pixel = ImageGetPixel(img, x + j, y + i);
@@ -567,6 +574,8 @@ void ImagePaste(Image img1, int x, int y, Image img2) { ///
   assert (img1 != NULL);
   assert (img2 != NULL);
   assert (ImageValidRect(img1, x, y, img2->width, img2->height));
+
+  //iterar a img2, obter o pixel em cada iteração e trocá-la na img1
 
   for(int i = 0; i < img2->height; i++){
     for(int j = 0; j < img2->width; j++){
@@ -595,10 +604,10 @@ void ImageBlend(Image img1, int x, int y, Image img2, double alpha) { ///
       uint8 pixel1 = ImageGetPixel(img1, j+x, i+y);
       uint8 pixel2 = ImageGetPixel(img2, j, i);
 
-      double newPixel = ((alpha*pixel2) + ((1-alpha)*pixel1))+0.5;                    
+      double newPixel = ((alpha*pixel2) + ((1-alpha)*pixel1))+0.5;              // +0.5 devido ao arredondametno                
 
-      if(newPixel > img1->maxval) newPixel = img1->maxval;
-      else if(newPixel < 0) newPixel = 0;
+      if(newPixel > img1->maxval) newPixel = img1->maxval;                      // overflow               
+      else if(newPixel < 0) newPixel = 0;                                       // underflow  
 
       ImageSetPixel(img1, j+x, i+y, (uint8)newPixel);
     }
@@ -615,13 +624,15 @@ int ImageMatchSubImage(Image img1, int x, int y, Image img2) { ///
   assert (img2 != NULL);
   assert (ImageValidPos(img1, x, y));
 
+  // iterates through the subimage and compares the pixels
+
   for(int i = 0; i < img2->height; i++){
     for(int j = 0; j < img2->width; j++){
 
       uint8 pixel1 = ImageGetPixel(img1, j+x, i+y);
       uint8 pixel2 = ImageGetPixel(img2, j, i);
       
-      if(pixel1 != pixel2) return 0;                            // iterates through the subimage and compares the pixels
+      if(pixel1 != pixel2) return 0;
 
     }
   }
@@ -663,11 +674,11 @@ int ImageLocateSubImage(Image img1, int* px, int* py, Image img2) { ///
 /// The image is changed in-place.
 void ImageBlur(Image img, int dx, int dy) { ///
   assert (img != NULL);
-  assert (ImageValidPos(img, dx, dy));
-  // Insert your code here!
 
-  Image copy = ImageCreate(img->width, img->height, img->maxval);         //cria uma copia da imagem temporária 
-  for(int i = 0; i < img->height; i++){                                   //de forma a não alterar os valores da imagem final com o blur da imagem inteira
+  //cria uma copia da imagem temporária de forma a não alterar
+  //os valores da imagem final com o blur da imagem inteira
+  Image copy = ImageCreate(img->width, img->height, img->maxval);         
+  for(int i = 0; i < img->height; i++){                                  
     for(int j = 0; j < img->width; j++){
       uint8 pixel = ImageGetPixel(img, j, i);
       ImageSetPixel(copy, j, i, pixel);
@@ -682,15 +693,14 @@ void ImageBlur(Image img, int dx, int dy) { ///
       for(int k = i-dy; k <= i+dy; k++){  
         for(int l = j-dx; l <= j+dx; l++){  
           if (ImageValidPos(copy, l, k)) {                                // verifica se dx e dy são válidos
-            pixel += ImageGetPixel(copy, l, k);
+            pixel += ImageGetPixel(copy, l, k);                           // necessário devido aos edge cases
             count++;
           }
         }
       }
 
       int media = (pixel+ count/2)/count;                                 // media = (soma pixeis + npixeis/2) /n pixeis
-
-      ImageSetPixel(img, j, i, (uint8)media);
+      ImageSetPixel(img, j, i, (uint8)media);                             // npixeis/2 devido ao arredondamento
     }
   }
   ImageDestroy(&copy);
@@ -698,3 +708,82 @@ void ImageBlur(Image img, int dx, int dy) { ///
   //Done ig
 }
 
+
+void ImageBlur2(Image img, int dx, int dy){
+  assert (img != NULL);
+  
+  //talvez usar malloc? idk
+  int arraySum[img->height][img->width];
+  arraySum[0][0] = ImageGetPixel(img, 0,0);
+
+  //inicializar o array com as áreas dos pixeis, com coordenadas x = 0 ou y = 0
+  for(int i = 1; i < img->width; i++){
+    arraySum[0][i] = arraySum[0][i-1] + ImageGetPixel(img, i, 0);
+  }
+
+  for(int i = 1; i < img->height; i++){
+    arraySum[i][0] = arraySum[i-1][0] + ImageGetPixel(img, 0, i);
+  }
+
+  //completar o array com as áreas, com os restantes valores
+  for(int i = 1; i < img->height; i++){
+    for(int j = 1; j < img->width; j++){
+      arraySum[i][j] =  ImageGetPixel(img, j, i) + arraySum[i-1][j] + arraySum[i][j-1] - arraySum[i-1][j-1];
+    }
+  }
+
+  //Aplicar o blur
+  for(int i = 0; i < img-> height; i++){
+    for(int j = 0; j < img-> width; j++){
+
+      // Coordenadas dos cantos do quadrilátero
+      int x1 = j - dx < 0 ? 0 : j - dx;
+      int y1 = i - dy < 0 ? 0 : i - dy;
+      int x2 = j + dx >= img->width ? img->width - 1 : j + dx;
+      int y2 = i + dy >= img->height ? img->height - 1 : i + dy;
+
+      // Coordenadas obtidas:
+      // top-left     -> (x1, y1)
+      // top-right    -> (x2, y1)
+      // bottom-left  -> (x1, y2)
+      // bottom-right -> (x2, y2)
+
+      int nPixels = (x2 - x1 + 1) * (y2 - y1 + 1);
+
+      int sum = arraySum[y2][x2];
+
+      //Condições necessárias, por causa dos Edge Cases
+      if(y1 > 0) sum -= arraySum[y1-1][x2];
+      if(x1 > 0) sum -= arraySum[y2][x1-1];
+      if(x1 > 0 && y1 > 0) sum +=arraySum[y1-1][x1-1];
+
+      // media = (soma pixeis + npixeis/2) /n pixeis
+      int media = (sum + nPixels/2)/nPixels;
+
+      ImageSetPixel(img, j, i, (uint8)media);
+    }
+  }
+  //Done ig
+}
+
+
+/*
+Foi adicionado tanto no header como no ImageTool.c, o funcionamento das duas variações da função Blur 
+(ImageBlur e ImageBlur2)
+
+Podem ser testados por exemplo:
+
+Valores menores:
+$ make
+$ ./imageTool pgm/large/ireland_03_1600x1200.pgm blur 5,5 save test.pgm
+$ ./imageTool pgm/large/ireland_03_1600x1200.pgm blur2 5,5 save test.pgm
+
+Valores maiores:
+$ make
+$ ./imageTool pgm/large/ireland_03_1600x1200.pgm blur 10000,10000 save test.pgm
+$ ./imageTool pgm/large/ireland_03_1600x1200.pgm blur2 10000,10000 save test.pgm
+
+obs: com a versão mais lenta (ImageBlur), blur 50,50, demora muito tempo para processar,
+por outro lado a versão otimizada (ImageBlur2), blur2 10000,10000, é praticamente instantâneo
+
+*/
