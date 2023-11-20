@@ -20,6 +20,7 @@
 #include "image8bit.h"
 
 #include <assert.h>
+#include <error.h>
 #include <ctype.h>
 #include <errno.h>
 #include <stdio.h>
@@ -146,12 +147,14 @@ static int check(int condition, const char* failmsg) {
 void ImageInit(void) { ///
   InstrCalibrate();
   InstrName[0] = "pixmem";  // InstrCount[0] will count pixel array acesses
+  InstrName[1] = "Comp";    // InstrCount[1] will count number of comparation
   // Name other counters here...
   
 }
 
 // Macros to simplify accessing instrumentation counters:
 #define PIXMEM InstrCount[0]
+#define COMP InstrCount[1]
 // Add more macros here...
 
 // TIP: Search for PIXMEM or InstrCount to see where it is incremented!
@@ -175,8 +178,8 @@ Image ImageCreate(int width, int height, uint8 maxval) { ///
   
   Image image = (Image)malloc(sizeof(struct image));                //arrange space for the image struct
   if(image == NULL){
-    // colocar errsave?? irineu
     errCause = "Falha na alocação de memória (image struct)";
+    error(2, errno,  "Creating %s", ImageErrMsg());
     return NULL;
   }
 
@@ -188,9 +191,9 @@ Image ImageCreate(int width, int height, uint8 maxval) { ///
 
   image->pixel = (uint8*)malloc(sizeof(uint8) * size);
   if(image->pixel == NULL){
-    // colocar errsave?? irineu
-    errCause = "Falha na alocação de memória (pixel array)";
     free(image);
+    errCause = "Falha na alocação de memória (pixel array)";
+    error(2, errno,  "Creating %s", ImageErrMsg());
     return  NULL;
   }
 
@@ -550,7 +553,7 @@ Image ImageCrop(Image img, int x, int y, int w, int h) { ///
 
   Image newImage = ImageCreate(w, h, img->maxval);
 
-  //iterar a imagem branca criada, e em cada iteração colocar o pixel correspondente da img
+  //iterar a imagem vazia criada, e em cada iteração colocar o pixel correspondente da img
 
   for (int i = 0; i < h; i++) {
     for (int j = 0; j < w; j++) {
@@ -633,6 +636,7 @@ int ImageMatchSubImage(Image img1, int x, int y, Image img2) { ///
       uint8 pixel1 = ImageGetPixel(img1, j+x, i+y);
       uint8 pixel2 = ImageGetPixel(img2, j, i);
       
+      COMP += 1;
       if(pixel1 != pixel2) return 0;
 
     }
@@ -652,6 +656,7 @@ int ImageLocateSubImage(Image img1, int* px, int* py, Image img2) { ///
 
   for(int i = 0; i <= img1->height - img2->height; i++){
     for(int j = 0; j <= img1->width - img2->width; j++){
+      COMP += 1;
       if(ImageMatchSubImage(img1, j, i, img2)){
 
         *px = j;

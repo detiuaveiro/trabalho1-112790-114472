@@ -37,18 +37,32 @@ int main(int argc, char* argv[]) {
   // the appropriate lines.
 
   //img2 = ImageCrop(img1, ImageWidth(img1)/4, ImageHeight(img1)/4, ImageWidth(img1)/2, ImageHeight(img1)/2);
-  Image img2 = ImageRotate(img1);
+  //Image img2 = ImageRotate(img1);
+  //img2 = ImageCrop(img2, 0,0,7,7);
+  //Image img2 = ImageCrop(img1, 0, 0, ImageWidth(img1), ImageHeight(img1));
+  Image img2 = ImageCrop(img1, 0, 0, 1, 1);
   if (img2 == NULL) {
     error(2, errno, "Rotating img2: %s", ImageErrMsg());
   }
 
   //ImageNegative(img2);
   //ImageThreshold(img2, 100);
-  ImageBrighten(img2, 1.3);
+  //ImageBrighten(img2, 1.3);
 
+  int px;
+  int py;
+
+
+  ImageLocateSubImage(img1, &px, &py, img2);
   if (ImageSave(img2, argv[2]) == 0) {
     error(2, errno, "%s: %s", argv[2], ImageErrMsg());
   }
+
+  printf("\n");
+
+  InstrPrint();
+
+
 
   ImageDestroy(&img1);
   ImageDestroy(&img2);
