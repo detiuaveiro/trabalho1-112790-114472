@@ -697,7 +697,7 @@ void ImageBlur(Image img, int dx, int dy) { ///
 
   for(int i = 0; i < img->height ; i++){
     for(int j = 0; j < img->width ; j++){
-      
+      COMP++;                                                             //iterações
       int pixel = 0;
       int count = 0;                                                      // contar número de pixeis do blur
       // iterar o quadrilátero do blur
@@ -705,14 +705,14 @@ void ImageBlur(Image img, int dx, int dy) { ///
         for(int l = j-dx; l <= j+dx; l++){  
           if (ImageValidPos(copy, l, k)) {                                // verifica se dx e dy são válidos
             pixel += ImageGetPixel(copy, l, k);                           // necessário devido aos edge cases
-            SUM++;
             count++;
+            SUM += 2;                                                     // pixel e count
           }
         }
       }
 
       int media = (pixel+ count/2)/count;                                 // media = (soma pixeis + npixeis/2) /n pixeis
-      MED++;
+      MED++;                                                              // número de medias
       ImageSetPixel(img, j, i, (uint8)media);                             // npixeis/2 devido ao arredondamento
     }
   }
