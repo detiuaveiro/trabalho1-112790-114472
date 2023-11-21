@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
   //Image img2 = ImageRotate(img1);
   //img2 = ImageCrop(img2, 0,0,7,7);
   //Image img2 = ImageCrop(img1, 0, 0, ImageWidth(img1), ImageHeight(img1));
-  Image img2 = ImageCrop(img1, 80, 80, 1, 1);
+  Image img2 = ImageCrop(img1, 200, 200, 1, 1);
   if (img2 == NULL) {
     error(2, errno, "Rotating img2: %s", ImageErrMsg());
   }
@@ -71,7 +71,7 @@ int main(int argc, char* argv[]) {
 
   InstrReset();
 
-  img2 = ImageCrop(img1, 80, 80, 4, 4);
+  img2 = ImageCrop(img1, 200, 200, 10, 10);
   if (img2 == NULL) {
     error(2, errno, "Rotating img2: %s", ImageErrMsg());
   }
@@ -98,7 +98,7 @@ int main(int argc, char* argv[]) {
 
   InstrReset();
 
-  img2 = ImageCrop(img1, 80, 80, 40, 40);
+  img2 = ImageCrop(img1, 200, 200, 100, 100);
   if (img2 == NULL) {
     error(2, errno, "Rotating img2: %s", ImageErrMsg());
   }
@@ -125,7 +125,7 @@ int main(int argc, char* argv[]) {
 
   InstrReset();
 
-  img2 = ImageCrop(img1, 80, 80, 100, 100);
+  img2 = ImageCrop(img1, 200, 200, 250, 250);
   if (img2 == NULL) {
     error(2, errno, "Rotating img2: %s", ImageErrMsg());
   }
@@ -152,7 +152,7 @@ int main(int argc, char* argv[]) {
 
   InstrReset();
 
-  img2 = ImageCrop(img1, 80, 80, 200, 200);
+  img2 = ImageCrop(img1, 200, 200, 500, 500);
   if (img2 == NULL) {
     error(2, errno, "Rotating img2: %s", ImageErrMsg());
   }
@@ -173,14 +173,14 @@ int main(int argc, char* argv[]) {
   }
   */
 
-  printf("\n100, 100\n");
+  printf("\n500, 500\n");
 
   InstrPrint();
 
   //NOVA COLUNAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
   InstrReset();
 
-  img2 = ImageCrop(img1, 240, 240, 1, 1);
+  img2 = ImageCrop(img1, 600, 600, 1, 1);
   if (img2 == NULL) {
     error(2, errno, "Rotating img2: %s", ImageErrMsg());
   }
@@ -202,13 +202,13 @@ int main(int argc, char* argv[]) {
   }
   */
 
-  printf("\n1, \n");
+  printf("\n1, 1\n");
 
   InstrPrint();
 
   InstrReset();
 
-  img2 = ImageCrop(img1, 240, 240, 4, 4);
+  img2 = ImageCrop(img1, 600, 600, 10, 10);
   if (img2 == NULL) {
     error(2, errno, "Rotating img2: %s", ImageErrMsg());
   }
@@ -235,7 +235,7 @@ int main(int argc, char* argv[]) {
 
   InstrReset();
 
-  img2 = ImageCrop(img1, 240, 240, 40, 40);
+  img2 = ImageCrop(img1, 600, 600, 100, 100);
   if (img2 == NULL) {
     error(2, errno, "Rotating img2: %s", ImageErrMsg());
   }
@@ -262,7 +262,7 @@ int main(int argc, char* argv[]) {
 
   InstrReset();
 
-  img2 = ImageCrop(img1, 240, 240, 100, 100);
+  img2 = ImageCrop(img1, 600, 600, 250, 250);
   if (img2 == NULL) {
     error(2, errno, "Rotating img2: %s", ImageErrMsg());
   }
@@ -289,7 +289,7 @@ int main(int argc, char* argv[]) {
 
   InstrReset();
 
-  img2 = ImageCrop(img1, 240, 240, 200, 200);
+  img2 = ImageCrop(img1, 600, 600, 500, 500);
   if (img2 == NULL) {
     error(2, errno, "Rotating img2: %s", ImageErrMsg());
   }
@@ -310,14 +310,14 @@ int main(int argc, char* argv[]) {
   }
   */
 
-  printf("\n200, 200\n");
+  printf("\n500, 500\n");
 
   InstrPrint();
 
   //NOVA COLUNAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
   InstrReset();
 
-  img2 = ImageCrop(img1, 639, 479, 1, 1);
+  img2 = ImageCrop(img1, 1599, 1199,1, 1);
   if (img2 == NULL) {
     error(2, errno, "Rotating img2: %s", ImageErrMsg());
   }
@@ -339,13 +339,13 @@ int main(int argc, char* argv[]) {
   }
   */
 
-  printf("\n1, \n");
+  printf("\n1, 1\n");
 
   InstrPrint();
 
   InstrReset();
 
-  img2 = ImageCrop(img1, 636, 476, 4, 4);
+  img2 = ImageCrop(img1, 1590, 1190,10, 10);
   if (img2 == NULL) {
     error(2, errno, "Rotating img2: %s", ImageErrMsg());
   }
@@ -372,7 +372,7 @@ int main(int argc, char* argv[]) {
 
   InstrReset();
 
-  img2 = ImageCrop(img1, 600, 440, 40, 40);
+  img2 = ImageCrop(img1, 1500,1100, 100, 100);
   if (img2 == NULL) {
     error(2, errno, "Rotating img2: %s", ImageErrMsg());
   }
@@ -399,7 +399,7 @@ int main(int argc, char* argv[]) {
 
   InstrReset();
 
-  img2 = ImageCrop(img1, 540, 380, 100, 100);
+  img2 = ImageCrop(img1,1350,950 , 250, 250);
   if (img2 == NULL) {
     error(2, errno, "Rotating img2: %s", ImageErrMsg());
   }
@@ -426,7 +426,7 @@ int main(int argc, char* argv[]) {
 
   InstrReset();
 
-  img2 = ImageCrop(img1, 440, 280, 200, 200);
+  img2 = ImageCrop(img1,1100, 700, 500, 500);
   if (img2 == NULL) {
     error(2, errno, "Rotating img2: %s", ImageErrMsg());
   }
@@ -447,7 +447,7 @@ int main(int argc, char* argv[]) {
   }
   */
 
-  printf("\n200, 200\n");
+  printf("\n500, 500\n");
 
   InstrPrint();
 
