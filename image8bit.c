@@ -148,6 +148,8 @@ void ImageInit(void) { ///
   InstrCalibrate();
   InstrName[0] = "pixmem";  // InstrCount[0] will count pixel array acesses
   InstrName[1] = "Comp";    // InstrCount[1] will count number of comparation
+  InstrName[2] = "Sum";     // InstrCount[2] will count number of sums
+  InstrName[3] = "Med";    // InstrCount[3] will count number of medias
   // Name other counters here...
   
 }
@@ -155,6 +157,8 @@ void ImageInit(void) { ///
 // Macros to simplify accessing instrumentation counters:
 #define PIXMEM InstrCount[0]
 #define COMP InstrCount[1]
+#define SUM InstrCount[2]
+#define MED InstrCount[3]
 // Add more macros here...
 
 // TIP: Search for PIXMEM or InstrCount to see where it is incremented!
@@ -701,12 +705,14 @@ void ImageBlur(Image img, int dx, int dy) { ///
         for(int l = j-dx; l <= j+dx; l++){  
           if (ImageValidPos(copy, l, k)) {                                // verifica se dx e dy são válidos
             pixel += ImageGetPixel(copy, l, k);                           // necessário devido aos edge cases
+            SUM++;
             count++;
           }
         }
       }
 
       int media = (pixel+ count/2)/count;                                 // media = (soma pixeis + npixeis/2) /n pixeis
+      MED++;
       ImageSetPixel(img, j, i, (uint8)media);                             // npixeis/2 devido ao arredondamento
     }
   }
