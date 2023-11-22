@@ -40,421 +40,71 @@ int main(int argc, char* argv[]) {
   //Image img2 = ImageRotate(img1);
   //img2 = ImageCrop(img2, 0,0,7,7);
   //Image img2 = ImageCrop(img1, 0, 0, ImageWidth(img1), ImageHeight(img1));
-  Image img2 = ImageCrop(img1, 200, 200, 1, 1);
-  if (img2 == NULL) {
-    error(2, errno, "Rotating img2: %s", ImageErrMsg());
-  }
+  //Image img2 = ImageCrop(img1, 200, 200, 1, 1);
+  //if (img2 == NULL) {
+    //error(2, errno, "Rotating img2: %s", ImageErrMsg());
+  //}
 
   //ImageNegative(img2);
   //ImageThreshold(img2, 100);
   //ImageBrighten(img2, 1.3);
-
-  int px;
-  int py;
-
   
-  ImageLocateSubImage(img1, &px, &py, img2);
-  if (ImageSave(img2, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
   
-  /*
-  ImageBlur(img1, argv[3], argv[4]);          //img, dx, dy
-  if (ImageSave(img1, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  */
-
-  printf("\n1, \n");
+  InstrReset();
+  printf("\n\t1 ; 1\n");
+  ImageBlur2(img1, 1, 1);
 
   InstrPrint();
+  InstrReset();
+  printf("\n\t3 ; 3\n");
+  ImageBlur2(img1, 3, 3);
 
+  InstrPrint();
+  InstrReset();
+  printf("\n\t5 ; 5\n");
+  ImageBlur2(img1, 5, 5);
+
+  InstrPrint();
   InstrReset();
 
-  img2 = ImageCrop(img1, 200, 200, 10, 10);
-  if (img2 == NULL) {
-    error(2, errno, "Rotating img2: %s", ImageErrMsg());
-  }
-
-  //ImageNegative(img2);
-  //ImageThreshold(img2, 100);
-  //ImageBrighten(img2, 1.3);
-  
-  ImageLocateSubImage(img1, &px, &py, img2);
-  if (ImageSave(img2, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  
-  /*
-  ImageBlur(img1, argv[3], argv[4]);          //img, dx, dy
-  if (ImageSave(img1, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  */
-
-  printf("\n10, 10\n");
+  printf("\n\t10 ; 10\n");
+  ImageBlur2(img1, 10, 10);
 
   InstrPrint();
-
   InstrReset();
 
-  img2 = ImageCrop(img1, 200, 200, 100, 100);
-  if (img2 == NULL) {
-    error(2, errno, "Rotating img2: %s", ImageErrMsg());
-  }
-
-  //ImageNegative(img2);
-  //ImageThreshold(img2, 100);
-  //ImageBrighten(img2, 1.3);
-  
-  ImageLocateSubImage(img1, &px, &py, img2);
-  if (ImageSave(img2, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  
-  /*
-  ImageBlur(img1, argv[3], argv[4]);          //img, dx, dy
-  if (ImageSave(img1, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  */
-
-  printf("\n100, 100\n");
+  printf("\n\t50 ; 50\n");
+  ImageBlur2(img1, 50, 50);
 
   InstrPrint();
+  InstrReset();
+  
 
+  printf("\n\t100 ; 100\n");
+  ImageBlur2(img1, 100, 100);
+
+  InstrPrint();
   InstrReset();
 
-  img2 = ImageCrop(img1, 200, 200, 250, 250);
-  if (img2 == NULL) {
-    error(2, errno, "Rotating img2: %s", ImageErrMsg());
-  }
-
-  //ImageNegative(img2);
-  //ImageThreshold(img2, 100);
-  //ImageBrighten(img2, 1.3);
-  
-  ImageLocateSubImage(img1, &px, &py, img2);
-  if (ImageSave(img2, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  
-  /*
-  ImageBlur(img1, argv[3], argv[4]);          //img, dx, dy
-  if (ImageSave(img1, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  */
-
-  printf("\n250, 250\n");
+  printf("\n\t500 ; 500\n");
+  ImageBlur2(img1, 500, 500);
 
   InstrPrint();
-
   InstrReset();
 
-  img2 = ImageCrop(img1, 200, 200, 500, 500);
-  if (img2 == NULL) {
-    error(2, errno, "Rotating img2: %s", ImageErrMsg());
-  }
 
-  //ImageNegative(img2);
-  //ImageThreshold(img2, 100);
-  //ImageBrighten(img2, 1.3);
-  
-  ImageLocateSubImage(img1, &px, &py, img2);
-  if (ImageSave(img2, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  
-  /*
-  ImageBlur(img1, argv[3], argv[4]);          //img, dx, dy
-  if (ImageSave(img1, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  */
-
-  printf("\n500, 500\n");
+  printf("\n\t1000 ; 1000\n");
+  ImageBlur2(img1, 1000, 1000);
 
   InstrPrint();
-
-  //NOVA COLUNAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
   InstrReset();
 
-  img2 = ImageCrop(img1, 600, 600, 1, 1);
-  if (img2 == NULL) {
-    error(2, errno, "Rotating img2: %s", ImageErrMsg());
-  }
-
-  //ImageNegative(img2);
-  //ImageThreshold(img2, 100);
-  //ImageBrighten(img2, 1.3);
 
   
-  ImageLocateSubImage(img1, &px, &py, img2);
-  if (ImageSave(img2, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  
-  /*
-  ImageBlur(img1, argv[3], argv[4]);          //img, dx, dy
-  if (ImageSave(img1, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  */
-
-  printf("\n1, 1\n");
-
-  InstrPrint();
-
-  InstrReset();
-
-  img2 = ImageCrop(img1, 600, 600, 10, 10);
-  if (img2 == NULL) {
-    error(2, errno, "Rotating img2: %s", ImageErrMsg());
-  }
-
-  //ImageNegative(img2);
-  //ImageThreshold(img2, 100);
-  //ImageBrighten(img2, 1.3);
-  
-  ImageLocateSubImage(img1, &px, &py, img2);
-  if (ImageSave(img2, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  
-  /*
-  ImageBlur(img1, argv[3], argv[4]);          //img, dx, dy
-  if (ImageSave(img1, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  */
-
-  printf("\n10, 10\n");
-
-  InstrPrint();
-
-  InstrReset();
-
-  img2 = ImageCrop(img1, 600, 600, 100, 100);
-  if (img2 == NULL) {
-    error(2, errno, "Rotating img2: %s", ImageErrMsg());
-  }
-
-  //ImageNegative(img2);
-  //ImageThreshold(img2, 100);
-  //ImageBrighten(img2, 1.3);
-  
-  ImageLocateSubImage(img1, &px, &py, img2);
-  if (ImageSave(img2, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  
-  /*
-  ImageBlur(img1, argv[3], argv[4]);          //img, dx, dy
-  if (ImageSave(img1, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  */
-
-  printf("\n100, 100\n");
-
-  InstrPrint();
-
-  InstrReset();
-
-  img2 = ImageCrop(img1, 600, 600, 250, 250);
-  if (img2 == NULL) {
-    error(2, errno, "Rotating img2: %s", ImageErrMsg());
-  }
-
-  //ImageNegative(img2);
-  //ImageThreshold(img2, 100);
-  //ImageBrighten(img2, 1.3);
-  
-  ImageLocateSubImage(img1, &px, &py, img2);
-  if (ImageSave(img2, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  
-  /*
-  ImageBlur(img1, argv[3], argv[4]);          //img, dx, dy
-  if (ImageSave(img1, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  */
-
-  printf("\n250, 250\n");
-
-  InstrPrint();
-
-  InstrReset();
-
-  img2 = ImageCrop(img1, 600, 600, 500, 500);
-  if (img2 == NULL) {
-    error(2, errno, "Rotating img2: %s", ImageErrMsg());
-  }
-
-  //ImageNegative(img2);
-  //ImageThreshold(img2, 100);
-  //ImageBrighten(img2, 1.3);
-  
-  ImageLocateSubImage(img1, &px, &py, img2);
-  if (ImageSave(img2, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  
-  /*
-  ImageBlur(img1, argv[3], argv[4]);          //img, dx, dy
-  if (ImageSave(img1, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  */
-
-  printf("\n500, 500\n");
-
-  InstrPrint();
-
-  //NOVA COLUNAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-  InstrReset();
-
-  img2 = ImageCrop(img1, 1599, 1199,1, 1);
-  if (img2 == NULL) {
-    error(2, errno, "Rotating img2: %s", ImageErrMsg());
-  }
-
-  //ImageNegative(img2);
-  //ImageThreshold(img2, 100);
-  //ImageBrighten(img2, 1.3);
-
-  
-  ImageLocateSubImage(img1, &px, &py, img2);
-  if (ImageSave(img2, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  
-  /*
-  ImageBlur(img1, argv[3], argv[4]);          //img, dx, dy
-  if (ImageSave(img1, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  */
-
-  printf("\n1, 1\n");
-
-  InstrPrint();
-
-  InstrReset();
-
-  img2 = ImageCrop(img1, 1590, 1190,10, 10);
-  if (img2 == NULL) {
-    error(2, errno, "Rotating img2: %s", ImageErrMsg());
-  }
-
-  //ImageNegative(img2);
-  //ImageThreshold(img2, 100);
-  //ImageBrighten(img2, 1.3);
-  
-  ImageLocateSubImage(img1, &px, &py, img2);
-  if (ImageSave(img2, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  
-  /*
-  ImageBlur(img1, argv[3], argv[4]);          //img, dx, dy
-  if (ImageSave(img1, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  */
-
-  printf("\n10, 10\n");
-
-  InstrPrint();
-
-  InstrReset();
-
-  img2 = ImageCrop(img1, 1500,1100, 100, 100);
-  if (img2 == NULL) {
-    error(2, errno, "Rotating img2: %s", ImageErrMsg());
-  }
-
-  //ImageNegative(img2);
-  //ImageThreshold(img2, 100);
-  //ImageBrighten(img2, 1.3);
-  
-  ImageLocateSubImage(img1, &px, &py, img2);
-  if (ImageSave(img2, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  
-  /*
-  ImageBlur(img1, argv[3], argv[4]);          //img, dx, dy
-  if (ImageSave(img1, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  */
-
-  printf("\n100, 100\n");
-
-  InstrPrint();
-
-  InstrReset();
-
-  img2 = ImageCrop(img1,1350,950 , 250, 250);
-  if (img2 == NULL) {
-    error(2, errno, "Rotating img2: %s", ImageErrMsg());
-  }
-
-  //ImageNegative(img2);
-  //ImageThreshold(img2, 100);
-  //ImageBrighten(img2, 1.3);
-  
-  ImageLocateSubImage(img1, &px, &py, img2);
-  if (ImageSave(img2, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  
-  /*
-  ImageBlur(img1, argv[3], argv[4]);          //img, dx, dy
-  if (ImageSave(img1, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  */
-
-  printf("\n250, 250\n");
-
-  InstrPrint();
-
-  InstrReset();
-
-  img2 = ImageCrop(img1,1100, 700, 500, 500);
-  if (img2 == NULL) {
-    error(2, errno, "Rotating img2: %s", ImageErrMsg());
-  }
-
-  //ImageNegative(img2);
-  //ImageThreshold(img2, 100);
-  //ImageBrighten(img2, 1.3);
-  
-  ImageLocateSubImage(img1, &px, &py, img2);
-  if (ImageSave(img2, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  
-  /*
-  ImageBlur(img1, argv[3], argv[4]);          //img, dx, dy
-  if (ImageSave(img1, argv[2]) == 0) {
-    error(2, errno, "%s: %s", argv[2], ImageErrMsg());
-  }
-  */
-
-  printf("\n500, 500\n");
-
-  InstrPrint();
-
 
 
   ImageDestroy(&img1);
-  ImageDestroy(&img2);
+  //ImageDestroy(&img2);
   return 0;
 }
 

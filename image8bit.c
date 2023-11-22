@@ -149,7 +149,9 @@ void ImageInit(void) { ///
   InstrName[0] = "pixmem";  // InstrCount[0] will count pixel array acesses
   InstrName[1] = "Comp";    // InstrCount[1] will count number of comparation
   InstrName[2] = "Sum";     // InstrCount[2] will count number of sums
-  InstrName[3] = "Med";    // InstrCount[3] will count number of medias
+  InstrName[3] = "Med";     // InstrCount[3] will count number of medias
+  InstrName[4] = "SubSum";     // InstrCount[4] will count number of sub/add
+  InstrName[5] = "Mul";     // InstrCount[4] will count number of multiplication
   // Name other counters here...
   
 }
@@ -159,6 +161,8 @@ void ImageInit(void) { ///
 #define COMP InstrCount[1]
 #define SUM InstrCount[2]
 #define MED InstrCount[3]
+#define SUBSUM InstrCount[4]
+#define MUL InstrCount[5]
 // Add more macros here...
 
 // TIP: Search for PIXMEM or InstrCount to see where it is incremented!
@@ -733,16 +737,19 @@ void ImageBlur2(Image img, int dx, int dy){
   //inicializar o array com as áreas dos pixeis, com coordenadas x = 0 ou y = 0
   for(int i = 1; i < img->width; i++){
     arraySum[0][i] = arraySum[0][i-1] + ImageGetPixel(img, i, 0);
+    SUBSUM++;
   }
 
   for(int i = 1; i < img->height; i++){
     arraySum[i][0] = arraySum[i-1][0] + ImageGetPixel(img, 0, i);
+    SUBSUM++;
   }
 
   //completar o array com as áreas, com os restantes valores
   for(int i = 1; i < img->height; i++){
     for(int j = 1; j < img->width; j++){
       arraySum[i][j] =  ImageGetPixel(img, j, i) + arraySum[i-1][j] + arraySum[i][j-1] - arraySum[i-1][j-1];
+      SUBSUM += 3;
     }
   }
 
@@ -755,7 +762,7 @@ void ImageBlur2(Image img, int dx, int dy){
       int y1 = i - dy < 0 ? 0 : i - dy;
       int x2 = j + dx >= img->width ? img->width - 1 : j + dx;
       int y2 = i + dy >= img->height ? img->height - 1 : i + dy;
-
+      SUBSUM += 4;
       // Coordenadas obtidas:
       // top-left     -> (x1, y1)
       // top-right    -> (x2, y1)
@@ -763,16 +770,28 @@ void ImageBlur2(Image img, int dx, int dy){
       // bottom-right -> (x2, y2)
 
       int nPixels = (x2 - x1 + 1) * (y2 - y1 + 1);
+      MUL++;
 
       int sum = arraySum[y2][x2];
 
       //Condições necessárias, por causa dos Edge Cases
-      if(y1 > 0) sum -= arraySum[y1-1][x2];
-      if(x1 > 0) sum -= arraySum[y2][x1-1];
-      if(x1 > 0 && y1 > 0) sum +=arraySum[y1-1][x1-1];
+      if(y1 > 0){
+        sum -= arraySum[y1-1][x2];
+        SUBSUM++;
+      }
+      if(x1 > 0){
+        sum -= arraySum[y2][x1-1];
+        SUBSUM++;
+      }
+      if(x1 > 0 && y1 > 0){
+        sum +=arraySum[y1-1][x1-1];
+        SUBSUM++;
+      }
+      COMP += 3;
 
       // media = (soma pixeis + npixeis/2) /n pixeis
       int media = (sum + nPixels/2)/nPixels;
+      MED++;
 
       ImageSetPixel(img, j, i, (uint8)media);
     }
