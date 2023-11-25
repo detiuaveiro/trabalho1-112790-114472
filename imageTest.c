@@ -49,7 +49,7 @@ int main(int argc, char* argv[]) {
   //ImageThreshold(img2, 100);
   //ImageBrighten(img2, 1.3);
   
-  
+
   InstrReset();
   printf("\n\t1 ; 1\n");
   ImageBlur2(img1, 1, 1);
@@ -78,7 +78,7 @@ int main(int argc, char* argv[]) {
 
   InstrPrint();
   InstrReset();
-  
+
 
   printf("\n\t100 ; 100\n");
   ImageBlur2(img1, 100, 100);

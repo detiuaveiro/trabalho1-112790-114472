@@ -146,12 +146,12 @@ static int check(int condition, const char* failmsg) {
 /// Currently, simply calibrate instrumentation and set names of counters.
 void ImageInit(void) { ///
   InstrCalibrate();
-  InstrName[0] = "pixmem";  // InstrCount[0] will count pixel array acesses
-  InstrName[1] = "Comp";    // InstrCount[1] will count number of comparation
-  InstrName[2] = "Sum";     // InstrCount[2] will count number of sums
-  InstrName[3] = "Med";     // InstrCount[3] will count number of medias
-  InstrName[4] = "SubSum";     // InstrCount[4] will count number of sub/add
-  InstrName[5] = "Mul";     // InstrCount[4] will count number of multiplication
+  InstrName[0] = "pixmem";       // InstrCount[0] will count pixel array acesses
+  InstrName[1] = "Comp";         // InstrCount[1] will count number of comparation
+  InstrName[2] = "Sum";          // InstrCount[2] will count number of sums
+  InstrName[3] = "Med";          // InstrCount[3] will count number of medias
+  InstrName[4] = "SubSum";       // InstrCount[4] will count number of sub/add
+  InstrName[5] = "Mul";          // InstrCount[5] will count number of multiplication
   // Name other counters here...
   
 }
@@ -211,7 +211,7 @@ Image ImageCreate(int width, int height, uint8 maxval) { ///
 
   return image;
 
-  //done ig
+  //Done ig
 }
 
 /// Destroy the image pointed to by (*imgp).
@@ -226,7 +226,7 @@ void ImageDestroy(Image* imgp) { ///
   free(*imgp);
   *imgp = NULL;
 
-  //done ig
+  //Done ig
 }
 
 
@@ -353,7 +353,7 @@ void ImageStats(Image img, uint8* min, uint8* max) { ///
     }
   }
   
-  //done ig
+  //Done ig
 }
 
 /// Check if pixel position (x,y) is inside img.
@@ -368,9 +368,7 @@ int ImageValidRect(Image img, int x, int y, int w, int h) { ///
   return (0 <= x && x < img->width) && (0 <= y && y < img->height) 
   && (w >= 0 && w <= img->width) && (h >= 0 && h <= img->height);
 
-  // não sei se ta correto
-  //sabes sim, confia
-  // '-'
+  //Done ig
 }
 
 /// Pixel get & set operations
@@ -434,7 +432,7 @@ void ImageNegative(Image img) { ///
     }
   }
 
-  //done ig
+  //Done ig
 }
 
 /// Apply threshold to image.
@@ -452,7 +450,7 @@ void ImageThreshold(Image img, uint8 thr) { ///
     }
   }
 
-  // done ig
+  //Done ig
 }
 
 /// Brighten image by a factor.
@@ -469,13 +467,13 @@ void ImageBrighten(Image img, double factor) { ///
       uint8 pixel = ImageGetPixel(img, j, i);
       double newPixel = pixel * factor + 0.5;                   // +0.5 to help rounding and help convert into uint8
 
-      if(newPixel > img->maxval) newPixel = img->maxval;        // overflow
+      if(newPixel > img->maxval) newPixel = img->maxval;        // verifica se há overflow
       
       ImageSetPixel(img, j, i, (uint8)newPixel);
     }
   }
 
-  //done ig
+  //Done ig
 }
 
 
@@ -514,7 +512,7 @@ Image ImageRotate(Image img) { ///
   }
   return newImage;
 
-  //done ig
+  //Done ig
 }
 
 /// Mirror an image = flip left-right.
@@ -540,7 +538,7 @@ Image ImageMirror(Image img) { ///
   }
   return newImage;
 
-  //done ig
+  //Done ig
 }
 
 /// Crop a rectangular subimage from img.
@@ -571,7 +569,8 @@ Image ImageCrop(Image img, int x, int y, int w, int h) { ///
   }
 
   return newImage;
-  // done ig
+  
+  //Done ig
 }
 
 
@@ -701,7 +700,6 @@ void ImageBlur(Image img, int dx, int dy) { ///
 
   for(int i = 0; i < img->height ; i++){
     for(int j = 0; j < img->width ; j++){
-      COMP++;                                                             //iterações
       int pixel = 0;
       int count = 0;                                                      // contar número de pixeis do blur
       // iterar o quadrilátero do blur
@@ -711,7 +709,7 @@ void ImageBlur(Image img, int dx, int dy) { ///
           if (ImageValidPos(copy, l, k)) {                                // verifica se dx e dy são válidos
             pixel += ImageGetPixel(copy, l, k);                           // necessário devido aos edge cases
             count++;
-            SUM += 2;                                                     // pixel e count
+            SUM += 2;                                                    
           }
         }
       }
@@ -730,7 +728,6 @@ void ImageBlur(Image img, int dx, int dy) { ///
 void ImageBlur2(Image img, int dx, int dy){
   assert (img != NULL);
   
-  //talvez usar malloc? idk
   int arraySum[img->height][img->width];
   arraySum[0][0] = ImageGetPixel(img, 0,0);
 
@@ -796,11 +793,13 @@ void ImageBlur2(Image img, int dx, int dy){
       ImageSetPixel(img, j, i, (uint8)media);
     }
   }
+
   //Done ig
 }
 
 
 /*
+
 Foi adicionado tanto no header como no ImageTool.c, o funcionamento das duas variações da função Blur 
 (ImageBlur e ImageBlur2)
 
@@ -816,7 +815,7 @@ $ make
 $ ./imageTool pgm/large/ireland_03_1600x1200.pgm blur 10000,10000 save test.pgm
 $ ./imageTool pgm/large/ireland_03_1600x1200.pgm blur2 10000,10000 save test.pgm
 
-obs: com a versão mais lenta (ImageBlur), blur 50,50, demora muito tempo para processar,
+obs: com a versão "bruteforce" (ImageBlur), blur 50,50, demora muito tempo para processar,
 por outro lado a versão otimizada (ImageBlur2), blur2 10000,10000, é praticamente instantâneo
 
 */
